@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 기반 부산 관광 사진 구도 추천 시스템 - 기술 상세 설명</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1A2B3C;
+            --secondary: #C0392B;
+            --accent: #2980B9;
+            --text: #2C3E50;
+            --text-light: #34495E;
+            --background: #ECF0F1;
+            --white: #FFFFFF;
+            --gradient-start: #1A2B3C;
+            --gradient-end: #2980B9;
+            --shadow: 0 10px 30px rgba(0,0,0,0.15);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes highlightPulse {
+            0% {
+                background-color: rgba(52, 152, 219, 0.1);
+            }
+            50% {
+                background-color: rgba(52, 152, 219, 0.2);
+            }
+            100% {
+                background-color: rgba(52, 152, 219, 0.1);
+            }
+        }
+
+        @keyframes techModuleHover {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            color: var(--text);
+            background-color: var(--background);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: fadeInUp 1s ease-out 0.2s backwards;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 1.8em;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+            animation: fadeInUp 1s ease-out 0.4s backwards;
+        }
+
+        h3 {
+            color: var(--accent);
+            font-size: 1.4em;
+            margin: 30px 0 15px;
+            animation: fadeInUp 1s ease-out 0.6s backwards;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            color: var(--text);
+            animation: fadeInUp 1s ease-out 0.8s backwards;
+        }
+
+        .highlight {
+            background: rgba(41, 128, 185, 0.15);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+            margin: 20px 0;
+            animation: highlightPulse 3s infinite;
+            transition: var(--transition);
+        }
+
+        .highlight:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .tech-module {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            animation: fadeInUp 1s ease-out 1s backwards;
+        }
+
+        .tech-module:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .tech-module h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .tech-module p {
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            animation: fadeInUp 1s ease-out 1.6s backwards;
+            background: var(--white);
+        }
+
+        th {
+            background: rgba(41, 128, 185, 0.15);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        td {
+            color: var(--text);
+        }
+
+        tr:hover {
+            background: rgba(52, 152, 219, 0.05);
+            transform: translateX(5px);
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: var(--accent);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 30px;
+            transition: var(--transition);
+            animation: fadeInUp 1s ease-out 1.8s backwards;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .back-button:hover {
+            background: var(--primary);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        strong {
+            color: var(--accent);
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+
+        strong::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        strong:hover::after {
+            transform: scaleX(1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+        }
+
+        .image-container {
+            margin: 20px 0;
+            text-align: center;
+            animation: fadeInUp 1s ease-out 1.2s backwards;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+
+        .image-container img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .image-caption {
+            color: var(--text-light);
+            font-size: 0.9em;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .sequence-diagram {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            animation: fadeInUp 1s ease-out 1.4s backwards;
+        }
+
+        .composition-analysis {
+            background: linear-gradient(135deg, rgba(41, 128, 185, 0.1), rgba(41, 128, 185, 0.15));
+            border: 1px solid rgba(41, 128, 185, 0.3);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .composition-analysis ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .composition-analysis li {
+            position: relative;
+            padding: 15px 20px 15px 50px;
+            margin: 10px 0;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        .composition-analysis li:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .composition-analysis li::before {
+            content: '✓';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 25px;
+            height: 25px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+        }
+
+        .composition-analysis strong {
+            color: var(--accent);
+            font-size: 1.1em;
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .composition-analysis p {
+            margin: 0;
+            color: var(--text);
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+            margin: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--accent);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 80px;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item::after {
+            content: '↓';
+            position: absolute;
+            left: 50px;
+            top: 20px;
+            color: var(--accent);
+            font-size: 1.2em;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-content {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        .timeline-content:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .timeline-step {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .timeline-tech {
+            color: var(--text-light);
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .timeline-note {
+            color: var(--text-light);
+            font-size: 0.85em;
+            font-style: italic;
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .flow-step:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .flow-step:hover .step-image {
+            display: block;
+        }
+
+        .step-image {
+            display: none;
+            position: absolute;
+            right: -300px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 280px;
+            background: var(--white);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        .step-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .step-image-caption {
+            margin-top: 5px;
+            font-size: 0.8em;
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: var(--accent);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .step-content {
+            flex: 1;
+            color: var(--text);
+        }
+
+        .data-collection-visual {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            gap: 20px;
+        }
+
+        .data-source {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        .data-source:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .source-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .source-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .source-stats {
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+
+        .training-process {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            gap: 15px;
+        }
+
+        .process-step {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        .process-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .process-icon {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .process-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .process-desc {
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI 기반 부산 관광 사진 구도 추천 시스템<br>기술 구현 상세 설명</h1>
+
+        <h2>1. 시스템 개요 및 기술 접근 방식</h2>
+        <p>이 시스템은 관광객이 부산에서 사진을 찍을 때 <strong>어떤 각도에서 찍으면 가장 예쁜 사진이 될지 실시간으로 조언해주는 AI 시스템</strong>입니다.<br>
+        사용자가 스마트폰을 들고 관광지를 비추면, AI가 "조금 왼쪽으로 이동해 보세요"처럼 <strong>사진 구도를 추천</strong>해줍니다.</p>
+        <p>이 시스템은 미리 학습된 인공지능 모델들을 활용해서, 사진 안에 무엇이 있는지, 어떻게 배치되어 있는지를 분석하고,<br>
+        사용자의 요청이나 예시 이미지와 비교하여 <strong>가장 잘 어울리는 구도를 제안</strong>하는 방식으로 작동합니다.</p>
+        
+        <div class="image-container">
+            <img src="images\simul_2.png" alt="AI 사진 구도 분석">
+            <div class="image-caption">AI가 실시간으로 사진 구도를 분석하는 과정</div>
+        </div>
+
+        <h2>2. 구현 모듈 및 단계별 기술 구성</h2>
+        
+        <div class="tech-module">
+            <h3>2.1 사용자의 요청과 장면의 의미 비교 (CLIP 기반)</h3>
+            <p>사용자는 <strong>참조 이미지</strong>(예: "인스타에서 본 감천마을 사진")나 <strong>짧은 문장</strong>(예: "광안대교가 배경에 보이게")을 입력합니다.</p>
+            <p>CLIP이라는 AI는 텍스트와 이미지를 <strong>같은 언어로 이해할 수 있도록 학습된 모델</strong>입니다.<br>
+            즉, 문장을 하나의 숫자 묶음(벡터)으로 바꾸고, 현재 카메라에 보이는 장면도 숫자 묶음으로 바꿔서 <strong>둘 사이의 유사도</strong>를 비교합니다.<br>
+            그 유사도가 높으면 "비슷하다", 낮으면 "좀 더 움직여야 한다"는 식으로 판단해서 피드백을 제공합니다.</p>
+            
+            <div class="image-container">
+                <img src="images\CLIP.png" alt="CLIP 모델 작동 방식">
+                <div class="image-caption">CLIP 모델의 텍스트-이미지 매칭 과정</div>
+            </div>
+        </div>
+
+        <div class="tech-module">
+            <h3>2.2 구도 분석 (CNN 기반)</h3>
+            <p>CNN(합성곱 신경망)은 이미지를 구성하는 요소들을 구분하고 이해하는 데 매우 뛰어난 AI 기술입니다.</p>
+            <p>시스템은 다음과 같은 기준으로 구도를 평가합니다:</p>
+            
+            <div class="composition-analysis">
+                <ul>
+                    <li>
+                        <strong>삼분할법(Rule of thirds)</strong>
+                        <p>피사체가 화면의 가장 예쁜 위치에 배치되었는가?</p>
+                    </li>
+                    <li>
+                        <strong>균형성</strong>
+                        <p>사진의 좌우 또는 위아래가 균형 잡혀 있는가?</p>
+                    </li>
+                    <li>
+                        <strong>색 조화</strong>
+                        <p>색상이 튀거나 배경과 어울리는가?</p>
+                    </li>
+                    <li>
+                        <strong>대칭성</strong>
+                        <p>좌우가 대칭적이거나 자연스러운가?</p>
+                    </li>
+                </ul>
+            </div>
+
+            <p>이 평가 결과를 종합해서 "현재 구도는 100점 만점 중 72점"처럼 점수를 매기고,<br>
+            개선 방법을 제안합니다.</p>
+        </div>
+
+        <div class="tech-module">
+            <h3>2.3 깊이 판단 (MiDaS 기반)</h3>
+            <p>MiDaS는 한 장의 사진에서 <strong>어느 부분이 가까이 있고, 어느 부분이 멀리 있는지</strong>를 판단하는 모델입니다.</p>
+            <p>이를 통해 인물은 앞에, 관광지는 뒤에 배치해서 <strong>입체감 있는 사진을 유도</strong>할 수 있습니다.<br>
+            예: "피사체가 너무 앞에 있어서 공간감이 부족해요. 한 걸음 뒤로 가세요."</p>
+        </div>
+
+        <div class="tech-module">
+            <h3>2.4 실시간 카메라 방향 분석 (PnP 기반)</h3>
+            <p>OpenCV의 PnP라는 기술은 사진 속 특정 지점을 기준으로 <strong>카메라가 어디를 보고 있는지 추정</strong>합니다.</p>
+            <p>사용자의 방향이 바뀌면 그에 따라 "오른쪽으로 15도 돌리세요" 같은 안내를 <strong>텍스트 또는 화면 오버레이로 보여줄 수 있습니다.</strong></p>
+        </div>
+
+        <h2>3. 시스템 작동 흐름 예시</h2>
+        <div class="sequence-diagram">
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">사용자가 실시간 영상을 입력</div>
+                    <div class="step-image">
+                        <img src="https://images.unsplash.com/photo-1517154421773-0529f29ea451?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="실시간 영상 입력">
+                        <div class="step-image-caption">사용자가 카메라로 장면을 비추는 모습</div>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">CLIP 이미지 인코더가 장면을 분석</div>
+                    <div class="step-image">
+                        <img src="https://images.unsplash.com/photo-1517154421773-0529f29ea451?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="CLIP 이미지 분석">
+                        <div class="step-image-caption">CLIP 모델이 이미지를 벡터로 변환하는 과정</div>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">사용자의 요청이 CLIP 텍스트/이미지 인코더로 입력</div>
+                    <div class="step-image">
+                        <img src="https://images.unsplash.com/photo-1517154421773-0529f29ea451?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="CLIP 텍스트 분석">
+                        <div class="step-image-caption">사용자 요청을 텍스트 벡터로 변환하는 과정</div>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">비교 모듈이 유사도 점수 계산</div>
+                    <div class="step-image">
+                        <img src="https://images.unsplash.com/photo-1517154421773-0529f29ea451?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="유사도 계산">
+                        <div class="step-image-caption">이미지와 텍스트 벡터의 유사도 계산 과정</div>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">CNN 분석기가 사진의 구도 평가</div>
+                    <div class="step-image">
+                        <img src="https://images.unsplash.com/photo-1517154421773-0529f29ea451?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="구도 분석">
+                        <div class="step-image-caption">CNN이 사진의 구도를 분석하는 과정</div>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">6</div>
+                    <div class="step-content">뎁스 분석기가 거리감 판단</div>
+                    <div class="step-image">
+                        <img src="https://images.unsplash.com/photo-1517154421773-0529f29ea451?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="깊이 분석">
+                        <div class="step-image-caption">MiDaS가 이미지의 깊이를 분석하는 과정</div>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">7</div>
+                    <div class="step-content">결과 모음이 종합 판단</div>
+                    <div class="step-image">
+                        <img src="https://images.unsplash.com/photo-1517154421773-0529f29ea451?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="결과 종합">
+                        <div class="step-image-caption">각 분석 결과를 종합하여 최종 판단하는 과정</div>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">8</div>
+                    <div class="step-content">피드백 시스템이 "왼쪽으로 10도 이동하세요" 안내</div>
+                    <div class="step-image">
+                        <img src="https://images.unsplash.com/photo-1517154421773-0529f29ea451?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="피드백 제공">
+                        <div class="step-image-caption">사용자에게 구도 조정 안내를 제공하는 모습</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>4. AI 모델 학습 방식</h2>
+        <div class="tech-module">
+            <h3>4.1 데이터 모으기</h3>
+            <p>관광지 이미지는 <strong>인스타그램, 플리커, 부산시 관광 웹사이트</strong>에서 수집합니다.</p>
+            <p>'좋아요 수'가 많거나 해시태그가 붙은 사진들을 우선 선별하고, <strong>언제, 어디서, 어떤 장비로, 어떤 방향에서 찍었는지</strong> 등의 정보를 정리합니다.</p>
+            
+            <div class="data-collection-visual">
+                <div class="data-source">
+                    <div class="source-icon">📸</div>
+                    <div class="source-title">인스타그램</div>
+                    <div class="source-stats">10,000+ 이미지</div>
+                </div>
+                <div class="data-source">
+                    <div class="source-icon">🌐</div>
+                    <div class="source-title">관광 웹사이트</div>
+                    <div class="source-stats">5,000+ 이미지</div>
+                </div>
+                <div class="data-source">
+                    <div class="source-icon">📱</div>
+                    <div class="source-title">플리커</div>
+                    <div class="source-stats">3,000+ 이미지</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tech-module">
+            <h3>4.2 모델 훈련</h3>
+            <p>수집한 이미지 데이터를 사용해서 AI 모델을 <strong>부산 관광지에 맞게 추가 학습(전이학습)</strong>시킵니다.</p>
+            <p>예: 광안리 사진 수천 장을 학습시키면, CLIP이 "광안리 느낌"을 더 잘 이해하게 됩니다.</p>
+            
+            <div class="training-process">
+                <div class="process-step">
+                    <div class="process-icon">1️⃣</div>
+                    <div class="process-title">데이터 전처리</div>
+                    <div class="process-desc">이미지 크기 조정 및 노이즈 제거</div>
+                </div>
+                <div class="process-step">
+                    <div class="process-icon">2️⃣</div>
+                    <div class="process-title">라벨링</div>
+                    <div class="process-desc">위치, 각도, 구도 정보 태깅</div>
+                </div>
+                <div class="process-step">
+                    <div class="process-icon">3️⃣</div>
+                    <div class="process-title">모델 학습</div>
+                    <div class="process-desc">부산 관광지 특화 학습</div>
+                </div>
+                <div class="process-step">
+                    <div class="process-icon">4️⃣</div>
+                    <div class="process-title">검증</div>
+                    <div class="process-desc">정확도 및 성능 평가</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>5. 시스템 경량화 전략</h2>
+        <p>학습된 모델은 처음에는 무겁기 때문에, 스마트폰에서 실시간으로 작동할 수 있도록 <strong>최적화(경량화)</strong>해야 합니다.</p>
+        <p>PyTorch로 만든 모델을 TorchScript, ONNX, 또는 TFLite 등으로 변환해서 모바일에서도 부드럽게 작동하게 합니다.</p>
+
+        <h2>6. 실제 구현 단계 (순서별 개발 계획)</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-step">1단계</div>
+                    <div class="timeline-title">실시간 장면과 요청 입력 받기</div>
+                    <div class="timeline-tech">OpenCV + CLIP</div>
+                    <div class="timeline-note">유사도 점수 출력</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-step">2단계</div>
+                    <div class="timeline-title">구도 분석</div>
+                    <div class="timeline-tech">CNN 기반 Rule-of-thirds 평가</div>
+                    <div class="timeline-note">별도 학습 필요</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-step">3단계</div>
+                    <div class="timeline-title">거리감 계산</div>
+                    <div class="timeline-tech">MiDaS로 깊이 맵 추출</div>
+                    <div class="timeline-note">OpenCV 연동</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-step">4단계</div>
+                    <div class="timeline-title">방향 안내 표시</div>
+                    <div class="timeline-tech">ARCore 또는 Flutter</div>
+                    <div class="timeline-note">UI와 통합 필요</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-step">5단계</div>
+                    <div class="timeline-title">종합 점수 산출 + 조언</div>
+                    <div class="timeline-tech">모든 점수 합산</div>
+                    <div class="timeline-note">UI 메시지 출력</div>
+                </div>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-button">← 메인 페이지로 돌아가기</a>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>참고 자료 - AI 기반 부산 관광 사진 구도 추천 시스템</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2C3E50;
+            --secondary: #E74C3C;
+            --accent: #3498DB;
+            --text: #2C3E50;
+            --text-light: #7F8C8D;
+            --background: #F5F6FA;
+            --white: #FFFFFF;
+            --gradient-start: #2C3E50;
+            --gradient-end: #3498DB;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            color: var(--text);
+            background-color: var(--background);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .reference-section {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .reference-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .reference-header h3 {
+            color: var(--primary);
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+
+        .reference-meta {
+            display: flex;
+            gap: 10px;
+        }
+
+        .reference-tag {
+            background: rgba(41, 128, 185, 0.1);
+            color: var(--accent);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+        }
+
+        .reference-content {
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .reference-subheader {
+            margin: 20px 0 15px;
+        }
+
+        .reference-subheader h4 {
+            color: var(--accent);
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .reference-list {
+            margin-left: 20px;
+        }
+
+        .reference-item {
+            margin-bottom: 20px;
+        }
+
+        .reference-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .reference-list ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+
+        .reference-list li {
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .reference-quote {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(41, 128, 185, 0.05);
+            border-left: 4px solid var(--accent);
+            border-radius: 5px;
+            font-style: italic;
+        }
+
+        .reference-quote p {
+            margin: 0;
+            color: var(--text);
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: var(--accent);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 30px;
+            transition: var(--transition);
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .back-button:hover {
+            background: var(--primary);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+        }
+
+        /* 애니메이션 스타일 추가 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="fade-in">참고 자료</h1>
+
+        <div class="reference-section fade-in">
+            <div class="reference-header">
+                <h3>SmartEye – 실시간 사용자 취향 기반 사진 구도 추천 시스템</h3>
+                <div class="reference-meta">
+                    <span class="reference-tag">📌 개요</span>
+                </div>
+            </div>
+            
+            <div class="reference-content">
+                <p>《SmartEye: Assisting Instant Photo Taking via Integrating User Preference with Deep View Proposal Network》는 사진을 찍기 전, <strong>실시간으로 최적 구도를 추천</strong>하고 시간이 지날수록 <strong>사용자 취향에 맞게 진화하는 모바일 사진 추천 시스템(SmartEye)</strong>을 제안한 연구이다.</p>
+            </div>
+
+            <div class="reference-section">
+                <div class="reference-subheader">
+                    <h4>🔧 시스템 구성 요소</h4>
+                </div>
+                <div class="reference-list">
+                    <div class="reference-item">
+                        <div class="reference-title">1. View Proposal Network (VPN)</div>
+                        <ul>
+                            <li>입력 이미지에서 수백 개의 구도 후보(anchor box)를 생성하고, 그중 미적으로 우수한 구도를 선택</li>
+                            <li><strong>미적 기준</strong>: 삼분할법, 시선 유도선, 균형감 등</li>
+                            <li><strong>성능</strong>: 실시간 작동 가능 (최대 75FPS)</li>
+                        </ul>
+                    </div>
+                    <div class="reference-item">
+                        <div class="reference-title">2. Preference Module (P-Module)</div>
+                        <ul>
+                            <li>사용자가 반복적으로 선택한 구도 스타일을 <strong>개인화 모델로 학습</strong></li>
+                            <li>간단한 로지스틱 회귀 기반으로 빠른 적응 가능</li>
+                            <li>시간이 지날수록 <strong>사용자 취향에 맞춘 구도 추천 가능</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reference-section">
+                <div class="reference-subheader">
+                    <h4>📱 사용자 인터페이스 (UI 기능)</h4>
+                </div>
+                <div class="reference-list">
+                    <ul>
+                        <li><strong>Smart Viewfinder</strong>: 카메라 뷰에 구도 추천 상자 표시</li>
+                        <li><strong>Smart Score</strong>: 현재 장면의 구도 점수를 색깔로 시각화 (초록=우수, 빨강=미흡)</li>
+                        <li><strong>Smart Zoom</strong>: 피사체 크기에 따라 자동으로 적절한 프레임으로 확대/축소</li>
+                        <li><strong>추천 썸네일</strong>: 다양한 구도 비율의 썸네일 추천 (4:3, 16:9 등)</li>
+                        <li><strong>제스처 컨트롤</strong>: 스와이프/롱프레스 기반 조작 가능</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="reference-section">
+                <div class="reference-subheader">
+                    <h4>🧪 실험 결과 요약</h4>
+                </div>
+                <div class="reference-list">
+                    <div class="reference-item">
+                        <div class="reference-title">정량적 분석</div>
+                        <ul>
+                            <li>참가자 16명을 대상으로 한 실험 결과</li>
+                            <li>P-Module 포함 SmartEye가 기존 모델보다 <strong>Top-1 선택 비율에서 최고 성능</strong></li>
+                            <li>시간이 지날수록 <strong>취향 반영 정확도 향상</strong></li>
+                        </ul>
+                    </div>
+                    <div class="reference-item">
+                        <div class="reference-title">정성적 피드백</div>
+                        <ul>
+                            <li>"내가 좋아하는 스타일을 시스템이 알아간다"는 점에서 사용자 만족도 높음</li>
+                            <li>실시간 안내 기능(Smart Score, Zoom)에 대해 <strong>'실용적'이라는 평가 다수</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reference-section">
+                <div class="reference-subheader">
+                    <h4>🎯 연구 기여 및 활용 시사점</h4>
+                </div>
+                <div class="reference-content">
+                    <ul>
+                        <li><strong>실시간 + 개인화 + 촬영 전 추천</strong>이라는 핵심 요소를 세계 최초로 결합</li>
+                        <li>기존의 오프라인 후처리 기반 구도 추천 시스템 대비 <strong>현장 실용성 및 사용자 몰입도 우수</strong></li>
+                        <li>디지털 관광/관광사진 AI 시스템에 있어 <strong>실시간 개인화 구도 추천의 필요성과 가능성 입증</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="reference-section">
+                <div class="reference-subheader">
+                    <h4>✅ 향후 내 프로젝트에 적용 가능한 인사이트</h4>
+                </div>
+                <div class="reference-content">
+                    <ul>
+                        <li><strong>실시간 추천 구조</strong>: CLIP, CNN 등의 모델과 VPN 구조 결합 가능</li>
+                        <li><strong>개인화 모델 설계</strong>: 단순 로지스틱 회귀 기반의 lightweight 모델로 구현 가능</li>
+                        <li><strong>Smart Score 기능</strong>: 사용자 피드백 없이도 시스템이 능동적으로 구도를 평가해주는 점이 특히 유용함</li>
+                        <li><strong>인터페이스 설계</strong>: AR 오버레이 방식 외에 색 기반 점수 시각화 기능도 고려 가능</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="reference-quote">
+                <p>SmartEye는 관광지에서 사진을 찍는 행위를 AI로 어떻게 실용적으로 도와줄 수 있는지를 잘 보여주는 사례이다. 내가 구현하려는 시스템과 매우 유사한 철학을 공유하며, 구조와 기능 설계의 레퍼런스로 활용할 수 있다.</p>
+            </div>
+        </div>
+
+        <div class="reference-section fade-in" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9)); border-radius: 20px; padding: 30px; margin: 20px 0; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 1px solid rgba(52, 152, 219, 0.1);">
+            <div class="reference-subheader" style="margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid rgba(52, 152, 219, 0.2);">
+                <h4 style="color: var(--primary); font-size: 1.4em; font-weight: 600; display: flex; align-items: center; gap: 10px;">📚 연구 자료</h4>
+            </div>
+            <div class="reference-content" style="line-height: 1.8;">
+                <div style="padding: 20px; background: rgba(255, 255, 255, 0.5); border-radius: 15px; border-left: 4px solid var(--accent);">
+                    <a href="research.pdf" target="_blank" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--primary);">
+                        <span style="font-size: 1.5em;">📄</span>
+                        <span style="font-weight: 500;">AI 기반 부산 관광 사진 구도 추천 시스템 연구 보고서</span>
+                    </a>
+                </div>
+                <div style="margin-top: 20px; padding: 20px; background: rgba(255, 255, 255, 0.5); border-radius: 15px; border: 1px solid rgba(52, 152, 219, 0.2);">
+                    <iframe src="research.pdf" width="100%" height="600px" style="border: none; border-radius: 10px;"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-button fade-in">← 메인 페이지로 돌아가기</a>
+    </div>
+
+    <script>
+        // 스크롤 애니메이션
+        const fadeElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                } else {
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        });
+
+        // 모든 애니메이션 요소에 대해 관찰 시작
+        fadeElements.forEach(element => {
+            observer.observe(element);
+        });
+
+        // 페이지 로드 시 초기 애니메이션 실행
+        window.addEventListener('load', () => {
+            fadeElements.forEach(element => {
+                if (element.getBoundingClientRect().top < window.innerHeight) {
+                    element.classList.add('visible');
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
