@@ -6,31 +6,31 @@ import { Mail, Github, Linkedin, FileText, MapPin, Phone } from 'lucide-react'
 const contactLinks = [
   {
     name: 'Email',
-    value: 'hong@example.com',
-    href: 'mailto:hong@example.com',
+    value: 'hu.tech.hub@gmail.com',
+    href: 'mailto:hu.tech.hub@gmail.com',
     icon: Mail,
     color: 'hover:text-red-400 hover:border-red-400'
   },
   {
     name: 'GitHub',
-    value: 'github.com/hongdev',
-    href: 'https://github.com/hongdev',
+    value: 'github.com/Hu-tech-hub',
+    href: 'https://github.com/Hu-tech-hub',
     icon: Github,
     color: 'hover:text-gray-400 hover:border-gray-400'
   },
   {
-    name: 'LinkedIn',
-    value: 'linkedin.com/in/hongdev',
-    href: 'https://linkedin.com/in/hongdev',
-    icon: Linkedin,
-    color: 'hover:text-blue-400 hover:border-blue-400'
-  },
-  {
-    name: 'Tech Blog',
-    value: 'hongdev.blog',
-    href: 'https://hongdev.blog',
+    name: 'Portfolio',
+    value: 'hu-tech-hub.github.io',
+    href: 'https://hu-tech-hub.github.io',
     icon: FileText,
     color: 'hover:text-green-400 hover:border-green-400'
+  },
+  {
+    name: 'Research',
+    value: 'AI/ML Research Hub',
+    href: 'https://github.com/Hu-tech-hub?tab=repositories',
+    icon: Linkedin,
+    color: 'hover:text-blue-400 hover:border-blue-400'
   }
 ]
 
@@ -121,10 +121,10 @@ export default function Contact() {
             viewport={{ once: true }}
           >
             <p className="text-text-secondary">
-              © 2024 홍길동. Built with Next.js & Tailwind CSS
+              © 2024 Hu-tech-hub. Built with Next.js & Tailwind CSS
             </p>
             <p className="text-sm text-text-secondary mt-2 font-mono">
-              {"{ Made with 💚 and ☕ }"}
+              {"{ Made with 🧠 AI and ⚡ Passion }"}
             </p>
           </motion.div>
         </motion.div>

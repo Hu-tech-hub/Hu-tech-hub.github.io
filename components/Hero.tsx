@@ -36,7 +36,7 @@ export default function Hero() {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1, delay: 0.7 }}
           >
-            홍길동
+            Hu-tech-hub
           </motion.h1>
           
           <motion.p 
@@ -45,7 +45,7 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
           >
-            role: "Backend Developer"
+            role: "AI/ML Backend Developer"
           </motion.p>
           
           <motion.p 
@@ -54,17 +54,26 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2 }}
           >
+            specialization: ["Computer Vision", "RAG Systems", "Gait Analysis"]
+          </motion.p>
+          
+          <motion.p 
+            className="font-mono text-lg md:text-xl text-text-secondary mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.4 }}
+          >
             {'}'}
           </motion.p>
           
           <motion.p 
-            className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto mb-12 leading-relaxed"
+            className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto mb-12 leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.4 }}
+            transition={{ delay: 1.6 }}
           >
-            안정적이고 확장 가능한 백엔드 시스템을 구축하며,<br />
-            성능 최적화와 클린 코드를 통해 더 나은 서비스를 만듭니다.
+            AI/ML과 백엔드 개발을 결합하여 지능형 시스템을 구축합니다.<br />
+            보행 분석부터 컴퓨터 비전, RAG 시스템까지 혁신적인 솔루션을 개발합니다.
           </motion.p>
           
           <motion.div 

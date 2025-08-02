@@ -4,36 +4,36 @@ import { motion } from 'framer-motion'
 
 const experiences = [
   {
-    title: '시니어 백엔드 개발자',
-    company: 'TechCorp',
-    period: '2023.01 - 현재',
+    title: 'AI/ML 백엔드 개발자',
+    company: 'Freelance & Research',
+    period: '2024.01 - 현재',
     responsibilities: [
-      '마이크로서비스 아키텍처 설계 및 구현',
-      'API 성능 최적화로 응답속도 50% 개선',
-      '주니어 개발자 멘토링 및 코드 리뷰',
-      'DevOps 파이프라인 구축 및 배포 자동화'
+      '6축 센서 데이터 기반 보행 분석 AI 시스템 개발 (Chronos + LangChain RAG)',
+      'Computer Vision 연구 및 YOLO 기반 실시간 객체 감지 시스템 구축',
+      'LangChain & LangServe를 활용한 고도화된 RAG 시스템 아키텍처 설계',
+      'FastAPI 기반 마이크로서비스와 벡터 데이터베이스 통합 구현'
+    ]
+  },
+  {
+    title: 'AI 연구 개발자',
+    company: 'University Research Lab',
+    period: '2023.03 - 2023.12',
+    responsibilities: [
+      'WalkerHolic: TCN 모델 기반 보행 패턴 분석 및 개인화 운동 추천 시스템',
+      'SIFT, ORB 알고리즘부터 증강현실까지 Computer Vision 기술 연구',
+      '시계열 데이터 처리 및 Stride Length Estimation 모델 개발',
+      'Jupyter Notebook 기반 실험 환경 구축 및 연구 데이터 관리'
     ]
   },
   {
     title: '백엔드 개발자',
-    company: 'StartupXYZ',
-    period: '2021.03 - 2022.12',
+    company: 'Tech Startup',
+    period: '2022.01 - 2023.02',
     responsibilities: [
-      'REST API 설계 및 개발',
-      '데이터베이스 설계 및 최적화',
-      '실시간 채팅 시스템 구축',
-      'AWS 인프라 구축 및 관리'
-    ]
-  },
-  {
-    title: '주니어 개발자',
-    company: 'DevCompany',
-    period: '2020.01 - 2021.02',
-    responsibilities: [
-      '웹 애플리케이션 백엔드 개발',
-      '데이터베이스 쿼리 최적화',
-      'API 문서화 및 테스트 작성',
-      '버그 수정 및 기능 개선'
+      'FastAPI 프레임워크를 활용한 고성능 웹 API 개발',
+      'MongoDB, PostgreSQL 등 다양한 데이터베이스 설계 및 최적화',
+      'Docker 컨테이너화 및 CI/CD 파이프라인 구축',
+      'Pydantic을 활용한 데이터 검증 및 API 문서화 자동화'
     ]
   }
 ]
@@ -49,7 +49,7 @@ export default function Experience() {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 relative">
-            Experience
+            Professional Experience
             <div className="absolute left-1/2 transform -translate-x-1/2 mt-6 w-16 h-1 bg-gradient-to-r from-accent-green to-accent-blue rounded-full"></div>
           </h2>
           
