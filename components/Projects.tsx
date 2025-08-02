@@ -3,12 +3,25 @@
 import { motion } from 'framer-motion'
 import { ExternalLink, Github, Filter } from 'lucide-react'
 import { useState } from 'react'
+import ProjectModal from './ProjectModal'
 
 const featuredProject = {
   title: '🧠 보행 분석 AI 시스템',
-  description: '6축 센서 데이터를 활용한 지능형 보행 진단 시스템입니다. Chronos 임베딩과 LangChain RAG를 결합하여 실시간 보행 패턴 분석 및 진단을 제공합니다. FastAPI와 Supabase를 활용한 확장 가능한 아키텍처로 구축되었습니다.',
+  description: '6축 센서 데이터를 활용한 지능형 보행 진단 시스템입니다. Chronos 임베딩과 LangChain RAG를 결합하여 실시간 보행 패턴 분석 및 진단을 제공합니다.',
+  fullDescription: '6축 센서 데이터를 기반으로 한 혁신적인 보행 분석 시스템입니다. Amazon Chronos 모델을 활용한 시계열 임베딩과 LangChain RAG 기술을 결합하여, 실시간 보행 패턴 분석 및 AI 기반 진단을 제공합니다. FastAPI와 Supabase를 활용한 확장 가능한 마이크로서비스 아키텍처로 구축되어 높은 성능과 안정성을 보장합니다.',
+  strategy: 'RAG 기반 AI 진단, 시계열 임베딩',
+  client: 'Healthcare & Research',
   technologies: ['Python', 'LangChain', 'Chronos', 'FastAPI', 'Supabase', 'FAISS'],
   achievements: '실시간 센서 데이터 처리, AI 기반 진단 정확도 90% 이상',
+  features: [
+    '6축 센서 데이터 실시간 수집 및 처리',
+    'Chronos 모델 기반 시계열 임베딩 생성',
+    'LangChain RAG를 통한 유사 진단 패턴 검색',
+    'FastAPI 기반 고성능 REST API',
+    'Supabase를 활용한 클라우드 데이터베이스',
+    'FAISS 벡터 검색을 통한 빠른 진단 매칭'
+  ],
+  challenges: '시계열 데이터의 복잡성과 실시간 처리 요구사항을 만족시키기 위해 Chronos 임베딩과 벡터 검색을 최적화했습니다.',
   github: 'https://github.com/Hu-tech-hub/gait-analyzer-chronos-langchain',
   demo: 'https://gait-analyzer.demo.com',
   category: 'AI/ML'
@@ -18,7 +31,18 @@ const projects = [
   {
     title: '🚶‍♂️ WalkerHolic',
     description: '보행 분석 및 운동 추천 시스템입니다. TCN 모델과 LangGraph를 활용하여 사용자의 보행 패턴을 분석하고 개인화된 운동 프로그램을 제안합니다.',
+    fullDescription: 'TCN(Temporal Convolutional Network) 모델과 LangGraph를 활용한 지능형 보행 분석 및 개인화 운동 추천 시스템입니다. 사용자의 보행 패턴을 실시간으로 분석하여 개인 맞춤형 운동 프로그램을 제안하고, 지속적인 학습을 통해 추천 정확도를 향상시킵니다.',
+    strategy: 'TCN 기반 패턴 분석, 개인화 추천',
+    client: 'Fitness & Healthcare',
     technologies: ['Python', 'FastAPI', 'TCN', 'LangGraph', 'ChromaDB'],
+    features: [
+      'TCN 모델을 활용한 보행 패턴 분석',
+      'LangGraph 기반 복잡한 워크플로우 관리',
+      '개인화된 운동 프로그램 추천 엔진',
+      'ChromaDB를 통한 벡터 데이터베이스 관리',
+      '실시간 피드백 및 진행도 추적'
+    ],
+    achievements: '개인화 추천 정확도 85% 이상, 사용자 만족도 향상',
     github: 'https://github.com/Hu-tech-hub/WalkerHolic',
     demo: 'https://walkerholic.demo.com',
     category: 'AI/ML'
@@ -26,7 +50,18 @@ const projects = [
   {
     title: '🤖 RAG 시스템',
     description: 'LangChain과 LangServe를 활용한 고도화된 RAG(Retrieval Augmented Generation) 시스템입니다. GPT-4와 벡터 검색을 결합하여 정확한 문서 기반 질의응답 서비스를 제공합니다.',
+    fullDescription: 'LangChain과 LangServe를 기반으로 구축된 최신 RAG(Retrieval Augmented Generation) 시스템입니다. GPT-4의 강력한 언어 이해 능력과 FAISS 벡터 검색을 결합하여 대규모 문서에서 정확한 정보를 검색하고 맥락을 고려한 답변을 생성합니다.',
+    strategy: 'RAG 아키텍처, 벡터 검색 최적화',
+    client: 'Enterprise & Education',
     technologies: ['Python', 'LangChain', 'LangServe', 'GPT-4', 'FAISS', 'MongoDB'],
+    features: [
+      'LangChain을 활용한 모듈화된 RAG 파이프라인',
+      'LangServe 기반 확장 가능한 API 서버',
+      'FAISS 벡터 검색을 통한 빠른 문서 검색',
+      'GPT-4 기반 컨텍스트 인식 답변 생성',
+      'MongoDB를 활용한 문서 메타데이터 관리'
+    ],
+    achievements: '검색 정확도 92%, 응답 시간 2초 이내',
     github: 'https://github.com/Hu-tech-hub/rag-system',
     demo: 'https://rag-system.demo.com',
     category: 'AI/ML'
@@ -34,7 +69,12 @@ const projects = [
   {
     title: '👁️ Computer Vision Lab',
     description: '컴퓨터 비전 연구 및 학습을 위한 종합 실험실입니다. SIFT, ORB 특징점 검출부터 증강현실, 포즈 추정까지 다양한 CV 기술을 구현하고 연구합니다.',
+    fullDescription: '컴퓨터 비전 기술의 전반적인 연구와 학습을 위한 종합 실험실입니다. SIFT, ORB 알고리즘부터 시작하여 증강현실, 포즈 추정, 객체 검출까지 다양한 CV 기술을 체계적으로 구현하고 연구합니다.',
+    strategy: '단계적 학습, 실습 중심 연구',
+    client: 'Research & Education',
     technologies: ['Python', 'OpenCV', 'TensorFlow', 'PyTorch', 'NumPy'],
+    features: ['SIFT/ORB 특징점 검출', '증강현실 구현', '포즈 추정', '객체 검출', '이미지 처리'],
+    achievements: '20+ CV 알고리즘 구현, 체계적인 학습 자료 구축',
     github: 'https://github.com/Hu-tech-hub/Computer_Vision_Lab',
     demo: 'https://cv-lab.demo.com',
     category: 'AI/ML'
@@ -69,6 +109,8 @@ const categories = ['All', 'AI/ML', 'Backend', 'Computer Vision']
 
 export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState('All')
+  const [selectedProject, setSelectedProject] = useState<any>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   
   const filteredProjects = selectedCategory === 'All' 
     ? projects 
@@ -77,6 +119,16 @@ export default function Projects() {
   const getProjectCount = (category: string) => {
     if (category === 'All') return projects.length
     return projects.filter(project => project.category === category).length
+  }
+
+  const openProjectModal = (project: any) => {
+    setSelectedProject(project)
+    setIsModalOpen(true)
+  }
+
+  const closeProjectModal = () => {
+    setIsModalOpen(false)
+    setTimeout(() => setSelectedProject(null), 300)
   }
 
   return (
@@ -155,23 +207,20 @@ export default function Projects() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
+              <button
+                onClick={() => openProjectModal(featuredProject)}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-accent-green to-accent-blue text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-accent-blue/30 hover:-translate-y-1 transition-all duration-300"
+              >
+                Show Project
+              </button>
               <a
                 href={featuredProject.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-accent-green to-accent-blue text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-accent-blue/30 hover:-translate-y-1 transition-all duration-300"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-border-color text-text-primary rounded-lg font-semibold hover:border-accent-blue hover:text-accent-blue hover:-translate-y-1 transition-all duration-300"
               >
                 <Github className="w-5 h-5" />
                 GitHub
-              </a>
-              <a
-                href={featuredProject.demo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-border-color text-text-primary rounded-lg font-semibold hover:border-accent-blue hover:text-accent-blue hover:-translate-y-1 transition-all duration-300"
-              >
-                <ExternalLink className="w-5 h-5" />
-                Live Demo
               </a>
             </div>
           </motion.div>
@@ -228,7 +277,7 @@ export default function Projects() {
                 <div className="space-y-3">
                   <button 
                     className="w-full bg-gradient-to-r from-accent-green to-accent-blue text-white px-4 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-accent-blue/30 hover:-translate-y-1 transition-all duration-300"
-                    onClick={() => window.open(project.github, '_blank')}
+                    onClick={() => openProjectModal(project)}
                   >
                     Show Project
                   </button>
@@ -259,6 +308,13 @@ export default function Projects() {
           </div>
         </motion.div>
       </div>
+
+      {/* Project Modal */}
+      <ProjectModal
+        isOpen={isModalOpen}
+        onClose={closeProjectModal}
+        project={selectedProject}
+      />
     </section>
   )
 }

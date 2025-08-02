@@ -13,7 +13,7 @@ export default function Hero() {
   }
 
   return (
-    <section className="min-h-screen flex items-center justify-center text-center relative bg-gradient-to-br from-bg-primary to-bg-secondary hero-pattern">
+    <section className="min-h-screen flex items-center justify-center text-center relative bg-gradient-to-br from-bg-primary to-bg-secondary hero-pattern pt-20">
       <div className="container mx-auto px-5 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

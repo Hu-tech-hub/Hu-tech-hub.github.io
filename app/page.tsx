@@ -1,12 +1,13 @@
 'use client'
 
 import { useEffect } from 'react'
+import Navigation from '@/components/Navigation'
 import Hero from '@/components/Hero'
 import About from '@/components/About'
 import TechStack from '@/components/TechStack'
 import Projects from '@/components/Projects'
 import Experience from '@/components/Experience'
-import Testimonials from '@/components/Testimonials'
+import LearningJourney from '@/components/Testimonials'
 import Contact from '@/components/Contact'
 
 export default function Home() {
@@ -36,12 +37,13 @@ export default function Home() {
 
   return (
     <main className="min-h-screen">
+      <Navigation />
       <Hero />
       <About />
       <TechStack />
       <Projects />
       <Experience />
-      <Testimonials />
+      <LearningJourney />
       <Contact />
     </main>
   )
