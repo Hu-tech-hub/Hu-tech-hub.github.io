@@ -18,23 +18,23 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       <span className="media-number">{String(index + 1).padStart(2, '0')}</span>
     </div> : <div className="research-cover">
       <BookOpen size={40} strokeWidth={1.2} /><p>COMPUTER VISION LAB</p>
-      <span>Features / Geometry / Image Processing</span>
+      <span>특징점 검출 · 카메라 기하 · 영상처리</span>
     </div>}
     <div className="project-content">
       <p className="eyebrow">{project.subtitle}</p>
       <h3>{project.title}</h3><p className="project-description">{project.description}</p>
       <div className="tech-tags">{project.technologies.map(tech => <span key={tech}>{tech}</span>)}</div>
       {project.role && <div className="project-role"><h4>담당한 일</h4><ul>{project.role.map(item => <li key={item}>{item}</li>)}</ul></div>}
-      <details className="project-details"><summary>구현 내용과 결과</summary><ul>{project.highlights.map(item => <li key={item}>{item}</li>)}</ul></details>
-      {project.modules && <div className="project-modules"><h4><FolderTree size={17} /> 데이터 구축·보행 분석</h4><RepositoryList items={project.modules} /></div>}
+      <details className="project-details"><summary>주요 구현 내용</summary><ul>{project.highlights.map(item => <li key={item}>{item}</li>)}</ul></details>
+      {project.modules && <div className="project-modules"><h4><FolderTree size={17} /> 데이터 처리·보행 분석</h4><RepositoryList items={project.modules} /></div>}
       {project.experiments && <details className="project-details"><summary>별도 실험 · 센서 분석·챗봇·RAG</summary>
-        <p className="experiment-note">최종 시스템과 구분되는 별도 실험입니다.</p><RepositoryList items={project.experiments} />
+        <p className="experiment-note">프로젝트를 진행하며 별도로 실험한 내용입니다. 최종 시스템에는 포함하지 않았습니다.</p><RepositoryList items={project.experiments} />
         {project.reference && <a className="reference-link" href={project.reference.url} target="_blank" rel="noopener noreferrer">{project.reference.name} · {project.reference.description} ↗</a>}
       </details>}
       {project.imageCredit && <a className="image-credit" href={project.imageCredit.url} target="_blank" rel="noopener noreferrer">{project.imageCredit.label}</a>}
       <div className="project-links">
         <a href={project.github} target="_blank" rel="noopener noreferrer"><Github size={16} /> 저장소 <ArrowUpRight size={15} /></a>
-        {project.demo && <a href={project.demo} target="_blank" rel="noopener noreferrer">전체 시연 <ArrowUpRight size={15} /></a>}
+        {project.demo && <a href={project.demo} target="_blank" rel="noopener noreferrer">시연 영상 <ArrowUpRight size={15} /></a>}
       </div>
     </div>
   </article>
@@ -58,8 +58,8 @@ export default function Projects() {
   const visible = group === '전체' ? projects : projects.filter(project => project.group === group)
   return <section id="projects" className="portfolio-section">
     <div className="portfolio-container">
-      <div className="section-heading"><div><p className="eyebrow">SELECTED WORK / 01</p><h2>만들고 연결한 것들<span>.</span></h2></div>
-        <p>프로젝트의 결과와 직접 맡은 일.<br />세부 모듈과 실험도 함께 기록했습니다.</p>
+      <div className="section-heading"><div><p className="eyebrow">SELECTED WORK / 01</p><h2>주요 프로젝트<span>.</span></h2></div>
+        <p>프로젝트별 구현 내용과 담당 역할을 정리했습니다.<br />관련 모듈과 별도 실험은 각 프로젝트에서 확인할 수 있습니다.</p>
       </div>
       <div className="project-filters" role="group" aria-label="프로젝트 활동별 필터">
         {projectGroups.map(item => <button key={item} type="button" aria-pressed={group === item} onClick={() => setGroup(item)}>{item}<span>{item === '전체' ? projects.length : projects.filter(p => p.group === item).length}</span></button>)}

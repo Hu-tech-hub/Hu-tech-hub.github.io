@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { Menu, X, ArrowUpRight } from 'lucide-react'
-const items = [{ href: '#projects', title: 'Projects' }, { href: '#about', title: 'About' }, { href: '#experience', title: 'Activities' }, { href: '#tech', title: 'Tools' }, { href: '#contact', title: 'Contact' }]
+const items = [{ href: '#projects', title: '프로젝트' }, { href: '#about', title: '소개' }, { href: '#experience', title: '교육·연구 활동' }, { href: '#tech', title: '사용 기술' }, { href: '#contact', title: '연락처' }]
 export default function Navigation() {
   const [open, setOpen] = useState(false)
   return <header className="site-header"><nav className="portfolio-container navigation" aria-label="주 메뉴">
